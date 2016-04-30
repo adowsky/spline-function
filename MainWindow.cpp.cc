@@ -273,7 +273,7 @@ IntervalComponents MainWindow::intervalParse() {
 }
 
 bool MainWindow::is_number(QString str) {
-    regex float_pattern("-?\\d{1,}\\.?\\d{0,}");
+    regex float_pattern("-?\\d{1,}\\.?\\d{0,}e?-?\\d{0,}([eE][-+]?[0-9]+)?");
     string s = str.toStdString();
     return regex_match(s, float_pattern);
 }

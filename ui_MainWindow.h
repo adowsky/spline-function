@@ -10,20 +10,20 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QDialog>
-#include <QtGui/QFormLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QHeaderView>
-#include <QtGui/QLabel>
-#include <QtGui/QLineEdit>
-#include <QtGui/QPushButton>
-#include <QtGui/QRadioButton>
-#include <QtGui/QScrollArea>
-#include <QtGui/QTextEdit>
-#include <QtGui/QWidget>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QDialog>
+#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QGroupBox>
+#include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QRadioButton>
+#include <QtWidgets/QScrollArea>
+#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
 
@@ -174,24 +174,24 @@ public:
 
     void retranslateUi(QDialog *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
-        groupBox->setTitle(QApplication::translate("MainWindow", "Arithmetics", 0, QApplication::UnicodeUTF8));
-        normalBtn->setText(QApplication::translate("MainWindow", "Normal", 0, QApplication::UnicodeUTF8));
-        intervalBtn->setText(QApplication::translate("MainWindow", "Interval", 0, QApplication::UnicodeUTF8));
-        groupBox_2->setTitle(QApplication::translate("MainWindow", "Result", 0, QApplication::UnicodeUTF8));
-        valueBtn->setText(QApplication::translate("MainWindow", "Value", 0, QApplication::UnicodeUTF8));
-        coeffBtn->setText(QApplication::translate("MainWindow", "Coefficients", 0, QApplication::UnicodeUTF8));
-        label->setText(QApplication::translate("MainWindow", "x:", 0, QApplication::UnicodeUTF8));
-        label_3->setText(QApplication::translate("MainWindow", "f:", 0, QApplication::UnicodeUTF8));
-        label_4->setText(QApplication::translate("MainWindow", "result in:", 0, QApplication::UnicodeUTF8));
-        label_5->setText(QApplication::translate("MainWindow", "Example:", 0, QApplication::UnicodeUTF8));
-        ex_x->setText(QApplication::translate("MainWindow", "x", 0, QApplication::UnicodeUTF8));
-        label_7->setText(QApplication::translate("MainWindow", "Example:", 0, QApplication::UnicodeUTF8));
-        label_8->setText(QApplication::translate("MainWindow", "Example:", 0, QApplication::UnicodeUTF8));
-        computeBtn->setText(QApplication::translate("MainWindow", "Compute", 0, QApplication::UnicodeUTF8));
-        ex_f->setText(QApplication::translate("MainWindow", "f", 0, QApplication::UnicodeUTF8));
-        ex_res_in->setText(QApplication::translate("MainWindow", "in", 0, QApplication::UnicodeUTF8));
-        label_2->setText(QApplication::translate("MainWindow", "Result:", 0, QApplication::UnicodeUTF8));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        groupBox->setTitle(QApplication::translate("MainWindow", "Arithmetics", 0));
+        normalBtn->setText(QApplication::translate("MainWindow", "Normal", 0));
+        intervalBtn->setText(QApplication::translate("MainWindow", "Interval", 0));
+        groupBox_2->setTitle(QApplication::translate("MainWindow", "Result", 0));
+        valueBtn->setText(QApplication::translate("MainWindow", "Value", 0));
+        coeffBtn->setText(QApplication::translate("MainWindow", "Coefficients", 0));
+        label->setText(QApplication::translate("MainWindow", "x:", 0));
+        label_3->setText(QApplication::translate("MainWindow", "f:", 0));
+        label_4->setText(QApplication::translate("MainWindow", "result in:", 0));
+        label_5->setText(QApplication::translate("MainWindow", "Example:", 0));
+        ex_x->setText(QApplication::translate("MainWindow", "x", 0));
+        label_7->setText(QApplication::translate("MainWindow", "Example:", 0));
+        label_8->setText(QApplication::translate("MainWindow", "Example:", 0));
+        computeBtn->setText(QApplication::translate("MainWindow", "Compute", 0));
+        ex_f->setText(QApplication::translate("MainWindow", "f", 0));
+        ex_res_in->setText(QApplication::translate("MainWindow", "in", 0));
+        label_2->setText(QApplication::translate("MainWindow", "Result:", 0));
     } // retranslateUi
 
 };
