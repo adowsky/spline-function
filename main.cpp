@@ -17,12 +17,9 @@ using namespace std;
 using namespace interval_arithmetic;
 void runTests(){
     cout<<"***TESTS START***"<<endl;
-    NormalSplineValueTest::normalSplineValuesTest1();
-    NormalSplineValueTest::normalSplineValueTest2();
-    NormalSplineValueTest::normalSplineValueTest3();
-    SplineCoeffnsTest::splineCoeffnsTest1();
+    NormalSplineValueTest::runAllTests();
+    SplineCoeffnsTest::runAllTests();
     std::cout << "***TESTS END***" << std::endl;
-        
 }
 int main(int argc, char *argv[]) {
     // initialize resources, if needed
@@ -31,10 +28,11 @@ int main(int argc, char *argv[]) {
  //  
 
     // create and show your widgets here
-    runTests();
+    //runTests();
+          
      QApplication app(argc, argv);
      MainWindow window;
-     window.show();
+     window.show(); 
      return app.exec();
 }
 

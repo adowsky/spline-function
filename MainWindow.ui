@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Natural Spline Value and Coefficients for Normal &amp; Interval Arithmetic</string>
   </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
@@ -95,9 +95,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>90</y>
+     <y>60</y>
      <width>601</width>
-     <height>197</height>
+     <height>202</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
@@ -185,54 +185,34 @@
     </item>
    </layout>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QWidget" name="formLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>370</y>
-     <width>65</width>
-     <height>17</height>
+     <x>10</x>
+     <y>270</y>
+     <width>601</width>
+     <height>201</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Result:</string>
-   </property>
-  </widget>
-  <widget class="QScrollArea" name="scrollArea">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>320</y>
-     <width>521</width>
-     <height>131</height>
-    </rect>
-   </property>
-   <property name="widgetResizable">
-    <bool>true</bool>
-   </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>519</width>
-      <height>129</height>
-     </rect>
+   <layout class="QFormLayout" name="formLayout_2">
+    <property name="formAlignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
-    <widget class="QTextEdit" name="output">
-     <property name="geometry">
-      <rect>
-       <x>3</x>
-       <y>-1</y>
-       <width>511</width>
-       <height>131</height>
-      </rect>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </widget>
+    <item row="1" column="1">
+     <widget class="QTextBrowser" name="output">
+      <property name="autoFormatting">
+       <set>QTextEdit::AutoAll</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Result:</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

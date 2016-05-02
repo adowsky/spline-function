@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'MainWindow.ui'
 **
-** Created by: Qt User Interface Compiler version 4.8.6
+** Created by: Qt User Interface Compiler version 4.8.7
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,20 +10,19 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QDialog>
-#include <QtWidgets/QFormLayout>
-#include <QtWidgets/QGroupBox>
-#include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QRadioButton>
-#include <QtWidgets/QScrollArea>
-#include <QtWidgets/QTextEdit>
-#include <QtWidgets/QWidget>
+#include <QtGui/QAction>
+#include <QtGui/QApplication>
+#include <QtGui/QButtonGroup>
+#include <QtGui/QDialog>
+#include <QtGui/QFormLayout>
+#include <QtGui/QGroupBox>
+#include <QtGui/QHeaderView>
+#include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
+#include <QtGui/QPushButton>
+#include <QtGui/QRadioButton>
+#include <QtGui/QTextBrowser>
+#include <QtGui/QWidget>
 
 QT_BEGIN_NAMESPACE
 
@@ -51,10 +50,10 @@ public:
     QPushButton *computeBtn;
     QLabel *ex_f;
     QLabel *ex_res_in;
+    QWidget *formLayoutWidget_2;
+    QFormLayout *formLayout_2;
+    QTextBrowser *output;
     QLabel *label_2;
-    QScrollArea *scrollArea;
-    QWidget *scrollAreaWidgetContents;
-    QTextEdit *output;
 
     void setupUi(QDialog *MainWindow)
     {
@@ -81,7 +80,7 @@ public:
         coeffBtn->setGeometry(QRect(10, 40, 109, 22));
         formLayoutWidget = new QWidget(MainWindow);
         formLayoutWidget->setObjectName(QString::fromUtf8("formLayoutWidget"));
-        formLayoutWidget->setGeometry(QRect(10, 90, 601, 197));
+        formLayoutWidget->setGeometry(QRect(10, 60, 601, 202));
         formLayout = new QFormLayout(formLayoutWidget);
         formLayout->setObjectName(QString::fromUtf8("formLayout"));
         formLayout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
@@ -151,21 +150,24 @@ public:
 
         formLayout->setWidget(6, QFormLayout::FieldRole, ex_res_in);
 
-        label_2 = new QLabel(MainWindow);
-        label_2->setObjectName(QString::fromUtf8("label_2"));
-        label_2->setGeometry(QRect(20, 370, 65, 17));
-        scrollArea = new QScrollArea(MainWindow);
-        scrollArea->setObjectName(QString::fromUtf8("scrollArea"));
-        scrollArea->setGeometry(QRect(90, 320, 521, 131));
-        scrollArea->setWidgetResizable(true);
-        scrollAreaWidgetContents = new QWidget();
-        scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 519, 129));
-        output = new QTextEdit(scrollAreaWidgetContents);
+        formLayoutWidget_2 = new QWidget(MainWindow);
+        formLayoutWidget_2->setObjectName(QString::fromUtf8("formLayoutWidget_2"));
+        formLayoutWidget_2->setGeometry(QRect(10, 270, 601, 201));
+        formLayout_2 = new QFormLayout(formLayoutWidget_2);
+        formLayout_2->setObjectName(QString::fromUtf8("formLayout_2"));
+        formLayout_2->setFormAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+        formLayout_2->setContentsMargins(0, 0, 0, 0);
+        output = new QTextBrowser(formLayoutWidget_2);
         output->setObjectName(QString::fromUtf8("output"));
-        output->setGeometry(QRect(3, -1, 511, 131));
-        output->setReadOnly(true);
-        scrollArea->setWidget(scrollAreaWidgetContents);
+        output->setAutoFormatting(QTextEdit::AutoAll);
+
+        formLayout_2->setWidget(1, QFormLayout::FieldRole, output);
+
+        label_2 = new QLabel(formLayoutWidget_2);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+
+        formLayout_2->setWidget(1, QFormLayout::LabelRole, label_2);
+
 
         retranslateUi(MainWindow);
 
@@ -174,24 +176,24 @@ public:
 
     void retranslateUi(QDialog *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
-        groupBox->setTitle(QApplication::translate("MainWindow", "Arithmetics", 0));
-        normalBtn->setText(QApplication::translate("MainWindow", "Normal", 0));
-        intervalBtn->setText(QApplication::translate("MainWindow", "Interval", 0));
-        groupBox_2->setTitle(QApplication::translate("MainWindow", "Result", 0));
-        valueBtn->setText(QApplication::translate("MainWindow", "Value", 0));
-        coeffBtn->setText(QApplication::translate("MainWindow", "Coefficients", 0));
-        label->setText(QApplication::translate("MainWindow", "x:", 0));
-        label_3->setText(QApplication::translate("MainWindow", "f:", 0));
-        label_4->setText(QApplication::translate("MainWindow", "result in:", 0));
-        label_5->setText(QApplication::translate("MainWindow", "Example:", 0));
-        ex_x->setText(QApplication::translate("MainWindow", "x", 0));
-        label_7->setText(QApplication::translate("MainWindow", "Example:", 0));
-        label_8->setText(QApplication::translate("MainWindow", "Example:", 0));
-        computeBtn->setText(QApplication::translate("MainWindow", "Compute", 0));
-        ex_f->setText(QApplication::translate("MainWindow", "f", 0));
-        ex_res_in->setText(QApplication::translate("MainWindow", "in", 0));
-        label_2->setText(QApplication::translate("MainWindow", "Result:", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Natural Spline Value and Coefficients for Normal & Interval Arithmetic", 0, QApplication::UnicodeUTF8));
+        groupBox->setTitle(QApplication::translate("MainWindow", "Arithmetics", 0, QApplication::UnicodeUTF8));
+        normalBtn->setText(QApplication::translate("MainWindow", "Normal", 0, QApplication::UnicodeUTF8));
+        intervalBtn->setText(QApplication::translate("MainWindow", "Interval", 0, QApplication::UnicodeUTF8));
+        groupBox_2->setTitle(QApplication::translate("MainWindow", "Result", 0, QApplication::UnicodeUTF8));
+        valueBtn->setText(QApplication::translate("MainWindow", "Value", 0, QApplication::UnicodeUTF8));
+        coeffBtn->setText(QApplication::translate("MainWindow", "Coefficients", 0, QApplication::UnicodeUTF8));
+        label->setText(QApplication::translate("MainWindow", "x:", 0, QApplication::UnicodeUTF8));
+        label_3->setText(QApplication::translate("MainWindow", "f:", 0, QApplication::UnicodeUTF8));
+        label_4->setText(QApplication::translate("MainWindow", "result in:", 0, QApplication::UnicodeUTF8));
+        label_5->setText(QApplication::translate("MainWindow", "Example:", 0, QApplication::UnicodeUTF8));
+        ex_x->setText(QApplication::translate("MainWindow", "x", 0, QApplication::UnicodeUTF8));
+        label_7->setText(QApplication::translate("MainWindow", "Example:", 0, QApplication::UnicodeUTF8));
+        label_8->setText(QApplication::translate("MainWindow", "Example:", 0, QApplication::UnicodeUTF8));
+        computeBtn->setText(QApplication::translate("MainWindow", "Compute", 0, QApplication::UnicodeUTF8));
+        ex_f->setText(QApplication::translate("MainWindow", "f", 0, QApplication::UnicodeUTF8));
+        ex_res_in->setText(QApplication::translate("MainWindow", "in", 0, QApplication::UnicodeUTF8));
+        label_2->setText(QApplication::translate("MainWindow", "Result:", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };
