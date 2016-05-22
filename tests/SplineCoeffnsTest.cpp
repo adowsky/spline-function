@@ -12,7 +12,6 @@ using namespace interval_arithmetic;
 
 class SplineCoeffnsTest {
     static constexpr long double epsilon = 4e-14;
-
     static Interval<long double> readInterval(long double val) {
         stringstream ss;
         ss.precision(14);
@@ -21,7 +20,7 @@ class SplineCoeffnsTest {
 
     }
 public:
-    static void splineCoeffnsTest1() {
+    static bool splineCoeffnsTest1() {
         cout << "splineCoeffnsTest1 ";
         long double x[] = {17, 20, 23, 24, 25, 27, 27.7};
         long double f[] = {4.5, 7.0, 6.1, 5.6, 5.8, 5.2, 4.1};
@@ -83,12 +82,12 @@ public:
         }
         delete[] (a);
         if (st == 0 && result)
-            Tests::success();
+            return Tests::success();
         else
-            Tests::fail();
+            return Tests::fail();
     }
 
-    static void intervalSplineCoeffnsTest1() {
+    static bool intervalSplineCoeffnsTest1() {
         cout << "intervalSplineCoeffnsTest1 ";
 
         Interval<long double> x[] = {readInterval(17), readInterval(20), readInterval(23), readInterval(24), readInterval(25),
@@ -97,11 +96,11 @@ public:
             readInterval(5.6), readInterval(5.8), readInterval(5.2), readInterval(4.1)};
         Interval<long double>** a = new Interval<long double>*[4];
         for (int i = 0; i < 4; ++i) {
-            a[i] = new Interval<long double>[7];
+            a[i] = new Interval<long double>[6];
         }
         int st = 0;
         IntervalArithmetic::naturalSplineConeffns(6, x, f, a, st);
-        Interval<long double> results[4][7];
+        Interval<long double> results[4][6];
         results[0][0] = readInterval(1.34403218971898e+0002);
         results[1][0] = readInterval(-2.51355662208450e+0001);
         results[2][0] = readInterval(1.54360591755605e+0000);
@@ -154,19 +153,19 @@ public:
         }
         delete[] (a);
         if (st == 0 && result)
-            Tests::success();
+           return Tests::success();
         else
-            Tests::fail();
+           return Tests::fail();
     }
     
-    static void intervalSplineCoeffnsTest2(){
+    static bool intervalSplineCoeffnsTest2(){
         cout << "intervalSplineCoeffnsTest2 ";
 
         Interval<long double> x[] = {readInterval(0), readInterval(1)};
         Interval<long double> f[] = {readInterval(0), readInterval(1)};
         Interval<long double>** a = new Interval<long double>*[4];
         for (int i = 0; i < 4; ++i) {
-            a[i] = new Interval<long double>[1];
+            a[i] = new Interval<long double>();
         }
         int st = 0;
         IntervalArithmetic::naturalSplineConeffns(1, x, f, a, st);
@@ -196,16 +195,16 @@ public:
                 }
             }
             for (int i = 0; i < 4; ++i) {
-            delete[](a[i]);
+            delete(a[i]);
         }
         delete[] (a);
         if (st == 0 && result)
-            Tests::success();
+            return Tests::success();
         else
-            Tests::fail();
+            return Tests::fail();
     }
     
-        static void intervalSplineCoeffnsTest3(){
+        static bool intervalSplineCoeffnsTest3(){
         cout << "intervalSplineCoeffnsTest3 ";
 
         Interval<long double> x[] = {readInterval(0), readInterval(1),readInterval(2)};
@@ -252,11 +251,11 @@ public:
         }
         delete[] (a);
         if (st == 0 && result)
-            Tests::success();
+            return Tests::success();
         else
-            Tests::fail();
+            return Tests::fail();
     }
-        static void intervalSplineCoeffnsTest4(){
+        static bool intervalSplineCoeffnsTest4(){
         cout << "intervalSplineCoeffnsTest4";
 
         Interval<long double> x[] = {readInterval(0), readInterval(0),readInterval(2)};
@@ -272,17 +271,20 @@ public:
         }
         delete[] (a);
         if (st == 2)
-            Tests::success();
+            return Tests::success();
         else
-            Tests::fail();
+             return Tests::fail();
     }
         
         
-    static void runAllTests() {
-        splineCoeffnsTest1();
-        intervalSplineCoeffnsTest1();
-        intervalSplineCoeffnsTest2();
-        intervalSplineCoeffnsTest3();
+    static bool runAllTests() {
+        bool result = true;
+        result &= splineCoeffnsTest1();
+        result &= intervalSplineCoeffnsTest1();
+        result &= intervalSplineCoeffnsTest2();
+        result &= intervalSplineCoeffnsTest3();
+        result &= intervalSplineCoeffnsTest4();
+        return result;
     }
 
     

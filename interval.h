@@ -107,7 +107,6 @@ template<typename T>
 inline Interval<T> Interval<T>::operator =(const Interval<T>& i) {
 	this->a = i.a;
 	this->b = i.b;
-
 	return *this;
 }
 
@@ -235,6 +234,14 @@ inline Interval<T> operator /(Interval<T> x, const Interval<T>& y) {
 		return IDiv(x, y);
 	}
 }
+
+inline bool operator ==(Interval<long double> x, const Interval<long double>& y) {
+    long double left = (x.a - y.a > 0)?x.a - y.a : y.a -x.a;
+    long double right = (x.b - y.b > 0)?x.b - y.b : y.b -x.b;
+    long double epsilon = 1e-17;
+    return (left<=epsilon) && (right<=epsilon);
+}
+
 template<typename T>
 inline void Interval<T>::SetPrecision(IAPrecision p) {
 	Interval<T>::precision = p;

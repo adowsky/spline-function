@@ -13,23 +13,15 @@
 #include "ui_MainWindow.h"
 #include "MainWindow.h"
 #include "IntervalArithmetic.h"
-using namespace std;
-using namespace interval_arithmetic;
-void runTests(){
-    cout<<"***TESTS START***"<<endl;
-    NormalSplineValueTest::runAllTests();
-    SplineCoeffnsTest::runAllTests();
-    std::cout << "***TESTS END***" << std::endl;
+#include <iostream>
+
+bool runTests(){
+    bool result = true;
+    result &= NormalSplineValueTest::runAllTests();
+    result &= SplineCoeffnsTest::runAllTests();
+    return result;
 }
 int main(int argc, char *argv[]) {
-    // initialize resources, if needed
-    // Q_INIT_RESOURCE(resfile);
-
- //  
-
-    // create and show your widgets here
-    //runTests();
-          
      QApplication app(argc, argv);
      MainWindow window;
      window.show(); 

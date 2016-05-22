@@ -10,6 +10,13 @@
 #include <QDialog>
 #include "ui_MainWindow.h"
 #include "interval.h"
+#include "NormalArithmetics.h"
+#include "IntervalArithmetic.h"
+#include <cstdlib>
+#include <regex>
+#include <sstream>
+#include <qt4/QtCore/qstring.h>
+#include <qt4/QtGui/qtextedit.h>
 
 enum Arithmetic{
     NORMAL, INTERVAL
@@ -19,6 +26,8 @@ enum Target{
     COEFF, VALUE
 };
 struct Components{
+    bool filled;
+    bool coef;
     int n;
     long double* x;
     long double* f;
@@ -27,6 +36,8 @@ struct Components{
     int st;
 };
 struct IntervalComponents{
+    bool filled;
+    bool coef;
     int n;
     interval_arithmetic::Interval<long double>* x;
     interval_arithmetic::Interval<long double>* f;
@@ -41,6 +52,7 @@ public:
     MainWindow();
     virtual ~MainWindow();
 private:
+    stringstream out;
     Components normalParse();
     IntervalComponents intervalParse();
     void printHardwareProblem();
@@ -50,6 +62,8 @@ private:
     void computeNormalCoeffns();
     void computeIntervalValue();
     void computeIntervalCoeffns();
+    void parseIntervalPointIn();
+    void parseNormalPointIn();
     bool is_number(QString);
     static const QString NORX;
     static const QString NORF;
@@ -57,7 +71,8 @@ private:
     static const QString INX;
     static const QString INF;
     static const QString INVALXX;
-    
+    Components normals;
+    IntervalComponents intervals;
     Ui::MainWindow widget;
     Arithmetic arit;
     Target target;

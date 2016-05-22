@@ -37,13 +37,14 @@ Interval<long double> IntervalArithmetic::naturalSplineValue(int n, Interval<lon
         do{
             i++;
             for(k=i+1;k<=n;++k){
-                if(x[i].a==x[k].a && x[i].b==x[k].b)
+                if(x[i]==x[k])
                     st = 2;
             }
         }while(i!=n-1 && st != 2);
     }
+    try{
     if(st == 0){ // if data is valid
-        d[0].a = 0;
+        d[0].a = 0.0;
         d[0].b = 0.0;
         d[n].a = 0.0;
         d[n].b = 0.0;
@@ -93,7 +94,7 @@ Interval<long double> IntervalArithmetic::naturalSplineValue(int n, Interval<lon
         i = -1;
         do{
             i++;
-            if(xx.b>x[i].b && xx.a<=x[i+1].a)
+            if(xx.a>=x[i].a && xx.b<=x[i+1].b)
                 found = true;
             
         }while(!found);
@@ -111,21 +112,27 @@ Interval<long double> IntervalArithmetic::naturalSplineValue(int n, Interval<lon
         }
         result = y;
     }
-        delete[](d);
-    delete[](b);
-    delete[](c);
+    }catch(...){
+    if(d != NULL) delete[] d;
+    if(b != NULL) delete[] b;
+    if(c != NULL) delete[] c;
+    throw runtime_error("Division by an interval containing 0.");
+    }
+    if(d != NULL) delete[] d;
+    if(b != NULL) delete[] b;
+    if(c != NULL) delete[] c;
     return result;
 }
 void IntervalArithmetic::naturalSplineConeffns(int n, Interval<long double>* x, Interval<long double>* f, Interval<long double>** a, int& st){
     int i,k;
     Interval<long double> u,v,y,z,xi;
     Interval<long double>* d = new (nothrow) Interval<long double>[n+1];
-    Interval<long double>* b = new (nothrow) Interval<long double>[n-1];
+    Interval<long double>* b = new (nothrow) Interval<long double>[n];
     Interval<long double>* c = new (nothrow) Interval<long double>[n];
     
-    Interval<long double> i6 = Interval<long double>::IntRead("6");
-    Interval<long double> i2 = Interval<long double>::IntRead("2");
-    Interval<long double> i1 = Interval<long double>::IntRead("1");
+    Interval<long double> i6 = Interval<long double>::IntRead("6.0");
+    Interval<long double> i2 = Interval<long double>::IntRead("2.0");
+    Interval<long double> i1 = Interval<long double>::IntRead("1.0");
     if(n<1)
         st = 1;
     else{
@@ -134,10 +141,11 @@ void IntervalArithmetic::naturalSplineConeffns(int n, Interval<long double>* x, 
         do{
             i++;
             for(k=i+1;k<=n;++k)
-                if(x[i].a == x[k].a && x[i].b == x[k].b)
+                if(x[i] == x[k])
                     st = 2;
         }while(i != n-1 && st !=2);
     }
+    try{
     if(st == 0){
         d[0] = Interval<long double>::IntRead("0.0");
         d[n] = Interval<long double>::IntRead("0.0");
@@ -197,7 +205,13 @@ void IntervalArithmetic::naturalSplineConeffns(int n, Interval<long double>* x, 
             a[3][i] = z;
         }            
     }
-    if(d != NULL) delete[](d);
-    if(b != NULL) delete[](b);
-    if(c != NULL) delete[](c);
+    }catch(...){
+    if(d != NULL) delete[] d;
+    if(b != NULL) delete[] b;
+    if(c != NULL) delete[] c;
+    throw runtime_error("Division by an interval containing 0.");
+    }
+    if(d != NULL) delete[] d;
+    if(b != NULL) delete[] b;
+    if(c != NULL) delete[] c;
 }

@@ -62,7 +62,7 @@ public:
         MainWindow->resize(622, 479);
         groupBox = new QGroupBox(MainWindow);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
-        groupBox->setGeometry(QRect(10, 0, 251, 81));
+        groupBox->setGeometry(QRect(10, 0, 251, 61));
         normalBtn = new QRadioButton(groupBox);
         normalBtn->setObjectName(QString::fromUtf8("normalBtn"));
         normalBtn->setGeometry(QRect(10, 20, 109, 22));
@@ -71,7 +71,7 @@ public:
         intervalBtn->setGeometry(QRect(10, 40, 109, 22));
         groupBox_2 = new QGroupBox(MainWindow);
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
-        groupBox_2->setGeometry(QRect(330, 0, 211, 91));
+        groupBox_2->setGeometry(QRect(330, 0, 211, 61));
         valueBtn = new QRadioButton(groupBox_2);
         valueBtn->setObjectName(QString::fromUtf8("valueBtn"));
         valueBtn->setGeometry(QRect(10, 20, 109, 22));
@@ -80,7 +80,7 @@ public:
         coeffBtn->setGeometry(QRect(10, 40, 109, 22));
         formLayoutWidget = new QWidget(MainWindow);
         formLayoutWidget->setObjectName(QString::fromUtf8("formLayoutWidget"));
-        formLayoutWidget->setGeometry(QRect(10, 60, 601, 202));
+        formLayoutWidget->setGeometry(QRect(10, 60, 601, 211));
         formLayout = new QFormLayout(formLayoutWidget);
         formLayout->setObjectName(QString::fromUtf8("formLayout"));
         formLayout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);

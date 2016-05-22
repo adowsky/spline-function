@@ -3,12 +3,12 @@
 #define TESTS
 class Tests{
 public:
-    static void fail(){
-        std::cout<<"[FAIL]"<<std::endl;
+    static bool fail(){
+        return false;
     }
 
-    static void success(){
-        std::cout<<"[OK]"<<std::endl;
+    static bool success(){
+        return true;
     }
 };
 #endif

@@ -1,11 +1,6 @@
 
 #include "MainWindow.h"
-#include "NormalArithmetics.h"
-#include "IntervalArithmetic.h"
-#include <cstdlib>
-#include <regex>
-#include <sstream>
-#include <qt5/QtCore/qstring.h>
+
 using namespace std;
 using namespace interval_arithmetic;
 const QString MainWindow::NORX = "0.0 1.0";
@@ -23,6 +18,8 @@ MainWindow::MainWindow() {
     on_normalBtn_clicked();
 
     connect(widget.computeBtn, SIGNAL(clicked()), this, SLOT(computeResult()));
+    normals.filled = false;
+    intervals.filled = false;
 }
 
 MainWindow::~MainWindow() {
@@ -54,139 +51,126 @@ void MainWindow::computeResult() {
 }
 
 void MainWindow::computeNormalValue() {
-    Components c = normalParse();
-    if (c.st == -1) {
+    normalParse();
+    parseNormalPointIn();
+    if (normals.st == -1) {
         printHardwareProblem();
         return;
-    } else if (c.st == -2) {
+    } else if (normals.st == -2) {
         printWrongInput();
         return;
     }
-    long double res = NormalArithmetics::naturalSplineValue(c.n, c.x, c.f, c.xx, c.st);
-    if (c.st == -1) {
+    long double res = NormalArithmetics::naturalSplineValue(normals.n, normals.x, normals.f, normals.xx, normals.st);
+    if (normals.st == -1) {
         printHardwareProblem();
         return;
     }
-    ostringstream out;
-    out << setprecision(14) << scientific << res;
-    string str = out.str();
-    widget.output->setPlainText(QString::fromUtf8(str.c_str()));
-    QTextCursor cursor = widget.output->textCursor();
-    widget.output->moveCursor(QTextCursor::End);
-    widget.output->insertPlainText("st=");
-    widget.output->insertPlainText(QString::fromUtf8(to_string(c.st).c_str()));
-    widget.output->setTextCursor(cursor);
-    delete[](c.f);
-    delete[](c.x);
+    out << setprecision(14) << scientific << res << "st=" << normals.st;
+    widget.output->clear();
+    widget.output->setPlainText(QString::fromUtf8(out.str().c_str()));
 }
 
 void MainWindow::computeNormalCoeffns() {
     bool ableToCompute = true;
-    Components c = normalParse();
-    c.a = new (nothrow) long double*[4];
+    normalParse();
     for (int i = 0; i < 4 && ableToCompute; ++i) {
-        c.a[i] = new (nothrow) long double[c.n+1];
-        if (c.a[i] == NULL)
+        normals.a[i] = new (nothrow) long double[normals.n + 1];
+        if (normals.a[i] == NULL)
             ableToCompute = false;
     }
     if (!ableToCompute) {
         printHardwareProblem();
         return;
-    } else if (c.st == -2) {
+    } else if (normals.st == -2) {
         printWrongInput();
         return;
     }
-    NormalArithmetics::naturalSplineConeffns(c.n, c.x, c.f, c.a, c.st);
-    if (c.st == -1) {
+    NormalArithmetics::naturalSplineConeffns(normals.n, normals.x, normals.f, normals.a, normals.st);
+    if (normals.st == -1) {
         printHardwareProblem();
         return;
     }
-    stringstream out;
-    out<< setprecision(14) << scientific;
-    for (int j = 0; j < c.n; ++j) 
-        for (int i = 0; i < 4; ++i){;           
-            out << "a[" << i << "," <<(j) << "]="<< c.a[i][j] <<",\n";
+    out << setprecision(14) << scientific;
+    for (int j = 0; j < normals.n; ++j)
+        for (int i = 0; i < 4; ++i) {
+            out << "a[" << i << "," << (j) << "]=" << normals.a[i][j] << ",\n";
         }
-    out << "st="<<(c.st);
+    out << "st=" << (normals.st);
+    widget.output->clear();
     widget.output->setPlainText(QString::fromStdString(out.str()));
-    //widget.output->setCursor(QTextCursor::End);
-    if(c.f != NULL) delete[](c.f);
-    if(c.x != NULL) delete[](c.x);
-   for (int i = 0; i < 4; ++i)
-        if(c.a[i] != NULL) delete[](c.a[i]);
-    if(c.a != NULL)delete[](c.a);
+    for (int i = 0; i < 4; ++i) {
+        delete[] normals.a[i];
+    }
 }
 
 void MainWindow::computeIntervalValue() {
-    IntervalComponents c = intervalParse();
-    if (c.st == -1) {
+    intervalParse();
+    parseIntervalPointIn();
+    if (intervals.st == -1) {
         printHardwareProblem();
         return;
-    } else if (c.st == -2) {
+    } else if (intervals.st == -2) {
         printWrongInput();
         return;
     }
     Interval<long double> res;
-    try{
-    res = IntervalArithmetic::naturalSplineValue(c.n, c.x, c.f, c.xx, c.st);
-    }catch(...){
+    try {
+        res = IntervalArithmetic::naturalSplineValue(intervals.n, intervals.x, intervals.f, intervals.xx, intervals.st);
+    } catch (...) {
         printWrongArgument();
         return;
     }
-    if (c.st == -1) {
+    if (intervals.st == -1) {
         printHardwareProblem();
         return;
     }
-    ostringstream out;
     out << setprecision(14) << scientific;
-    out << "[" << res.a << " , " << res.b << "] w=" << res.GetWidth() << endl << "st=" << c.st;
-    string str = out.str();
-    out.clear();
-    widget.output->setPlainText(QString::fromUtf8(str.c_str()));
-    delete[](c.f);
-    delete[](c.x);
+    out << "[" << res.a << " , " << res.b << "] w=" << res.GetWidth() << endl << "st=" << intervals.st;
+    widget.output->clear();
+    widget.output->setPlainText(QString::fromStdString(out.str().c_str()));
+    out.str("");
 }
+//
 
 void MainWindow::computeIntervalCoeffns() {
     bool ableToCompute = true;
-    IntervalComponents c = intervalParse();
-    c.a = new (nothrow) Interval<long double>*[4];
+    intervalParse();
     for (int i = 0; i < 4 && ableToCompute; ++i) {
-        c.a[i] = new (nothrow) Interval<long double>[c.n + 1];
-        if (c.a[i] == NULL)
+        intervals.a[i] = new (nothrow) Interval<long double>[intervals.n + 1];
+        if (intervals.a[i] == NULL)
             ableToCompute = false;
     }
     if (!ableToCompute) {
         printHardwareProblem();
         return;
-    } else if (c.st == -2) {
+    } else if (intervals.st == -2) {
         printWrongInput();
         return;
     }
-    try{
-    IntervalArithmetic::naturalSplineConeffns(c.n, c.x, c.f, c.a, c.st);
-    }catch(...){
+    try {
+        IntervalArithmetic::naturalSplineConeffns(intervals.n, intervals.x, intervals.f, intervals.a, intervals.st);
+    } catch (...) {
         printWrongArgument();
+
         return;
     }
-    if (c.st == -1) {
+    if (intervals.st == -1) {
         printHardwareProblem();
         return;
     }
-    ostringstream out;
+
     out << setprecision(14) << scientific;
-    for (int j = 0; j <= c.n; ++j) 
-        for (int i = 0; i < 4; ++i){
-            out << "a[" << i << "," << j << "]=" << "[" << c.a[i][j].a << " , " << c.a[i][j].b << "] w=" << c.a[i][j].GetWidth()<< endl;
+    for (int j = 0; j <= intervals.n; ++j)
+        for (int i = 0; i < 4; ++i) {
+            out << "a[" << i << "," << j << "]=" << "[" << intervals.a[i][j].a << " , " << intervals.a[i][j].b << "] w=" << intervals.a[i][j].GetWidth() << endl;
         }
-    out << "st=" << c.st;
-    string str = out.str();
+    out << "st=" << intervals.st;
+    widget.output->clear();
     widget.output->setPlainText(out.str().c_str());
-    delete[](c.f);
-    delete[](c.x);
-    for (int i = 0; i < 4; ++i)
-        delete[](c.a[i]);
-    delete[](c.a);
+    out.str("");
+    for (int i = 0; i < 4 && ableToCompute; ++i) {
+        delete[] intervals.a[i];
+    }
 }
 
 void MainWindow::on_coeffBtn_clicked() {
@@ -212,66 +196,101 @@ void MainWindow::on_valueBtn_clicked() {
 }
 
 Components MainWindow::normalParse() {
-    Components result;
+    if (normals.filled) {
+        delete[] normals.f;
+        delete[] normals.x;
+        delete[] normals.a;
+    }
     QStringList xList = widget.xIn->text().trimmed().split(" ");
     QStringList fList = widget.fIn->text().trimmed().split(" ");
     if (xList.size() != fList.size()) {
-        result.st = -2;
-        return result;
+        normals.st = -2;
+        return normals;
     }
-    result.n = xList.size() - 1;
-    result.x = new (nothrow) long double[result.n + 1];
-    result.f = new (nothrow) long double[result.n + 1];
-    result.st = 0;
-    if (result.x == NULL || result.f == NULL) {
-        result.st = -1;
-        return result;
+    normals.n = xList.size() - 1;
+    normals.x = new (nothrow) long double[normals.n + 1];
+    normals.f = new (nothrow) long double[normals.n + 1];
+    normals.a = new (nothrow) long double*[4];
+    normals.st = 0;
+    if (normals.x == NULL || normals.f == NULL) {
+        normals.st = -1;
+        return normals;
     }
     for (int i = 0; i < xList.size(); ++i) {
         if (!is_number(xList[i]) || !is_number(fList[i])) {
-            result.st = -2;
-            return result;
+            normals.st = -2;
+            return normals;
         }
-        result.x[i] = Interval<long double>::IntRead(xList[i].toStdString()).a;
-        result.f[i] = Interval<long double>::IntRead(fList[i].toStdString()).a;
+        normals.x[i] = Interval<long double>::IntRead(xList[i].toStdString()).a;
+        normals.f[i] = Interval<long double>::IntRead(fList[i].toStdString()).a;
 
     }
-    result.xx = Interval<long double>::IntRead(widget.pointIn->text().trimmed().toStdString()).a;
-    return result;
+    normals.xx = Interval<long double>::IntRead(widget.pointIn->text().trimmed().toStdString()).a;
+    return normals;
 }
 
 IntervalComponents MainWindow::intervalParse() {
-    IntervalComponents* iresult;
+    if (intervals.filled) {
+        delete[] intervals.f;
+        delete[] intervals.x;
+        delete[] intervals.a;
+        intervals.filled = false;
+    }
+    intervals.filled = true;
     QStringList xList = widget.xIn->text().trimmed().split(" ");
     QStringList fList = widget.fIn->text().trimmed().split(" ");
-    iresult = new IntervalComponents;
-    (*iresult).n = xList.size() - 1;
-    (*iresult).x = new (nothrow) Interval<long double>[(*iresult).n + 1];
-    (*iresult).f = new (nothrow) Interval<long double>[(*iresult).n + 1];
-    (*iresult).st = 0;
-    if ((*iresult).x == NULL || (*iresult).f == NULL) {
-        (*iresult).st = -1;
-        return *iresult;
+
+    intervals.n = xList.size() - 1;
+    intervals.x = new (nothrow) Interval<long double>[intervals.n + 1];
+    intervals.f = new (nothrow) Interval<long double>[intervals.n + 1];
+    intervals.a = new (nothrow) Interval<long double>*[4];
+    intervals.st = 0;
+    if (intervals.x == NULL || intervals.f == NULL) {
+        intervals.st = -1;
+        return intervals;
     }
     for (int i = 0; i < xList.size(); ++i) {
         QStringList xInterval = xList[i].trimmed().split(",");
         QStringList fInterval = xList[i].trimmed().split(",");
         if (xInterval.size() != 2 || fInterval.size() != 2 || xInterval.size() == 0) {
-            (*iresult).st = -2;
-            return *iresult;
+            intervals.st = -2;
+            return intervals;
         }
 
         if (!is_number(xInterval[0]) || !is_number(xInterval[1]) || !is_number(fInterval[0]) || !is_number(fInterval[1])) {
-            (*iresult).st = -2;
+            intervals.st = -2;
 
-            return *iresult;
+            return intervals;
         }
-        (*iresult).x[i].a = Interval<long double>::LeftRead(xInterval[0].toStdString());
-        (*iresult).x[i].b = Interval<long double>::RightRead(xInterval[1].toStdString());
-        (*iresult).f[i].a = Interval<long double>::LeftRead(fInterval[0].toStdString());
-        (*iresult).f[i].b = Interval<long double>::RightRead(fInterval[1].toStdString());
+        intervals.x[i].a = Interval<long double>::LeftRead(xInterval[0].toStdString());
+        intervals.x[i].b = Interval<long double>::RightRead(xInterval[1].toStdString());
+        intervals.f[i].a = Interval<long double>::LeftRead(fInterval[0].toStdString());
+        intervals.f[i].b = Interval<long double>::RightRead(fInterval[1].toStdString());
     }
-    return *iresult;
+    return intervals;
+}
+
+void MainWindow::parseIntervalPointIn() {
+    QStringList pList = widget.pointIn->text().trimmed().split(",");
+    if (pList.size() != 2) {
+        intervals.st = -2;
+        return;
+    }
+    if (!is_number(pList[0]) || !is_number(pList[1])) {
+        intervals.st = -2;
+        return;
+    }
+    intervals.xx.a = Interval<long double>::LeftRead(pList[0].toStdString());
+    intervals.xx.b = Interval<long double>::RightRead(pList[1].toStdString());
+}
+
+void MainWindow::parseNormalPointIn() {
+    QString p = widget.pointIn->text().trimmed();
+    if (!is_number(p)) {
+        intervals.st = -2;
+        return;
+    }
+    normals.xx = Interval<long double>::IntRead(p.toStdString()).a;
 }
 
 bool MainWindow::is_number(QString str) {
@@ -287,6 +306,7 @@ void MainWindow::printHardwareProblem() {
 void MainWindow::printWrongInput() {
     widget.output->setPlainText("Cannot compute! Wrong input. Check the fields and try again!");
 }
-void MainWindow::printWrongArgument(){
+
+void MainWindow::printWrongArgument() {
     widget.output->setPlainText("Result unreachable for given arguments.");
 }

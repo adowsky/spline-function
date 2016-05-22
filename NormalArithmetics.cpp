@@ -81,9 +81,8 @@ long double NormalArithmetics::naturalSplineValue(int n, long double* x, long do
         i = -1;
         do{
             i++;
-            if(xx>x[i] && xx<=x[i+1])
-                found = true;
-            
+            if(xx>=x[i] && xx<=x[i+1])
+                found = true;   
         }while(!found);
         y = x[i+1] - x[i];
         z = d[i+1];
@@ -99,9 +98,9 @@ long double NormalArithmetics::naturalSplineValue(int n, long double* x, long do
         }
         result = y;
     }
-    delete[](d);
-    delete[](b);
-    delete[](c);
+    delete[] d;
+    delete[] b;
+    delete[] c;
     return result;
 }
 
@@ -182,7 +181,7 @@ void NormalArithmetics::naturalSplineConeffns(int n, long double* x, long double
             a[3][i] = z;
         }            
     }
-    delete[](d);
-    delete[](b);
-    delete[](c);
+    delete[] d ;
+    delete[] b;
+    delete[] c;
 }
